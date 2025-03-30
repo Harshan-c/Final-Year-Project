@@ -1,0 +1,2 @@
+1) run the backend = 'uvicorn main:app --reload'
+2) run the frontend index.html using LiveServer
