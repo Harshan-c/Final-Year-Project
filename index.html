@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Code Generator</title>
+    <style>
+        /* General Page Styling */
+        body, html {
+            height: 100%;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: Arial, sans-serif;
+        }
+
+        /* Background */
+        .container {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            background-color: #313131;
+            background-image: radial-gradient(rgba(255, 255, 255, 0.171) 2px, transparent 0);
+            background-size: 30px 30px;
+            background-position: -5px -5px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* QR Form Container */
+        .qr-container {
+            background: #c4c4c4; /* Grey background */
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 5px 5px 10px #888888;
+            text-align: center;
+            width: 350px;
+            border: 2px solid black;
+            position: relative;
+        }
+
+        /* Title */
+        h2 {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        /* Input Fields */
+        input {
+            display: block;
+            width: 90%;
+            padding: 10px;
+            margin: 10px auto;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            background: white;
+            box-shadow: 4px 4px 5px #4f4f4f;
+            outline: none;
+        }
+
+        /* Submit Button */
+        button {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            font-weight: bold;
+            background: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            box-shadow: 4px 4px 5px #4f4f4f;
+        }
+
+        button:hover {
+            background: #f5f5f5;
+        }
+
+        /* Response Message */
+        #response {
+            margin-top: 15px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="qr-container">
+            <h2>Ticket</h2>
+            <form id="qrForm">
+                <input type="text" id="bill_no" placeholder="Bill No" required>
+                <input type="text" id="name" placeholder="Name" required>
+                <input type="text" id="college_name" placeholder="College Name" required>
+                <input type="email" id="email" placeholder="Email" required>
+                <button type="submit">Generate QR</button>
+            </form>
+            <p id="response"></p>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById("qrForm").addEventListener("submit", async function(event) {
+            event.preventDefault();
+
+            const data = {
+                bill_no: document.getElementById("bill_no").value,
+                name: document.getElementById("name").value,
+                college_name: document.getElementById("college_name").value,
+                email: document.getElementById("email").value
+            };
+
+            try {
+                const response = await fetch("http://127.0.0.1:8000/generate_qr/", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(data)
+                });
+
+                const result = await response.json();
+                if (response.ok) {
+                    document.getElementById("response").innerHTML = "QR Code sent to email!";
+                } else {
+                    document.getElementById("response").innerHTML = "Error: " + result.detail;
+                }
+            } catch (error) {
+                document.getElementById("response").innerHTML = "Error connecting to backend.";
+            }
+        });
+    </script>
+</body>
+</html>
