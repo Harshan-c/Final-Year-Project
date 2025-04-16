@@ -9,7 +9,7 @@ msg = EmailMessage()
 msg["Subject"] = "Test Email"
 msg["From"] = sender_email
 msg["To"] = receiver_email
-msg.set_content("good morning.")
+msg.set_content("hii putti.")
 
 try:
     with smtplib.SMTP_SSL("smtp.gmail.com", 465) as server:
