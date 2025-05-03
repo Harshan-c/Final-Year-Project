@@ -23,43 +23,108 @@
             justify-content: center;
             align-items: center;
         }
-        .qr-container {
-            background: #c4c4c4;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 5px 5px 10px #888888;
+        .form {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            padding-left: 2em;
+            padding-right: 2em;
+            padding-bottom: 0.4em;
+            background-color: #171717;
+            border-radius: 25px;
+            transition: .4s ease-in-out;
+            width:fit-content;
+            height: fit-content;
+        }
+
+        .form:hover {
+            transform: scale(1.05);
+            border: 1px solid black;
+        }
+
+        #heading {
             text-align: center;
-            width: 350px;
-            border: 2px solid black;
-        }
-        h2 { font-size: 24px; font-weight: bold; margin-bottom: 20px; }
-        input, button {
-            width: 90%;
-            padding: 10px;
-            margin: 10px auto;
+            margin: 2em;
+            color: rgb(255, 255, 255);
+            font-size: 1.2em;
+       }
+
+        .field {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5em;
+            border-radius: 25px;
+            padding: 0.6em;
             border: none;
-            border-radius: 5px;
-            font-size: 16px;
-            box-shadow: 4px 4px 5px #4f4f4f;
+            outline: none;
+            color: white;
+            background-color: #171717;
+            box-shadow: inset 2px 5px 10px rgb(5, 5, 5);
         }
-        button { background: white; cursor: pointer; }
-        button:hover { background: #f5f5f5; }
-        #response { margin-top: 15px; font-weight: bold; }
+
+        .input-field {
+            background: none;
+            border: none;
+            outline: none;
+            width: 100%;
+            color: #d3d3d3;
+        }
+
+        .form .btn {
+            display: flex;
+            justify-content: center;
+            flex-direction: row;
+            margin-top: 0.5em;
+            margin-bottom: 1.5em;
+            
+        }
+
+            .button1 {
+            padding: 0.5em;
+            padding-left: 1.1em;
+            padding-right: 1.1em;
+            border-radius: 5px;
+            margin-right: 0.5em;
+            border: none;
+            outline: none;
+            transition: .4s ease-in-out;
+            background-color: #252525;
+            color: white;
+        }
+
+        .button1:hover {
+            background-color: rgb(4, 189, 34);
+            color: white;
+        }
+    
     </style>
 </head>
-<body>
-    <div class="container">
+<body class="container">
         <div class="qr-container">
-            <h2>Generate Ticket</h2>
-            <form id="qrForm">
-                <input type="text" id="name" placeholder="Name" required>
-                <input type="text" id="phone" placeholder="Phone" required>
-                <input type="email" id="email" placeholder="Email" required>
-                <button type="submit">Generate QR</button>
+            <form class="form" id="qrForm">
+                <p id="heading">Generate Ticket</p>
+                <div class="field">
+                <input autocomplete="off" placeholder="Name" id="name" class="input-field" type="text" required>
+                </div>
+                <div class="field">
+                <input autocomplete="off" id="phone" class="input-field" placeholder="Phone" type="text" required>
+                </div>
+                <div class="field">
+                    <input autocomplete="off" id="bill" class="input-field" placeholder="Bill NO" type="text" required>
+                </div>
+                <div class="field">
+                    <input autocomplete="off" id="email" class="input-field" placeholder="Email" type="email" required>
+                </div>
+                <div class="field">
+                    <input autocomplete="off" id="college" class="input-field" placeholder="College Name" type="text" required>
+                </div>
+                <div class="btn">
+                <button class="button1">Generate QRCode</button>
+                </div>
             </form>
             <p id="response"></p>
         </div>
-    </div>
 
     <script>
         document.getElementById("qrForm").addEventListener("submit", async function(event) {
@@ -68,7 +133,9 @@
             const data = {
                 name: document.getElementById("name").value,
                 phone: document.getElementById("phone").value,
-                email: document.getElementById("email").value
+                email: document.getElementById("email").value,
+                bill: document.getElementById("bill").value,
+                college: document.getElementById("college").value
             };
 
             try {
